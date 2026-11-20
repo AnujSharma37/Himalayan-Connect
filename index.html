@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Himalayan Connect – Rural Tourism Platform</title>
+<style>
+:root{
+  --green:#1f4d36; --green-2:#2f6b4a; --green-soft:#e3eee6;
+  --bg:#f6f0e1; --card:#ffffff; --ink:#1d2b24; --muted:#5d6b63; --line:#e6dfcc;
+  --side:#1f4d36; --side-ink:#f6f0e1; --accent:#c8923a;
+  --radius:20px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --green-soft:#1f3a2c; --bg:#101a15; --card:#17251e; --ink:#eef0e6; --muted:#a3b2a8;
+    --line:#25382d; --side:#0c2217; --green:#6fbf8e; --green-2:#8fd1a8; --accent:#e0b062;
+  }
+}
+:root[data-theme="dark"]{
+  --green-soft:#1f3a2c; --bg:#101a15; --card:#17251e; --ink:#eef0e6; --muted:#a3b2a8;
+  --line:#25382d; --side:#0c2217; --green:#6fbf8e; --green-2:#8fd1a8; --accent:#e0b062;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Trebuchet MS","Segoe UI",system-ui,-apple-system,sans-serif;line-height:1.55}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;margin:0;line-height:1.2}
+button,input,select{font:inherit}
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+/* Sidebar */
+.sidebar{background:var(--side);color:var(--side-ink);padding:28px 16px;position:sticky;top:0;height:100vh;
+  display:flex;flex-direction:column;gap:8px}
+.brand{display:flex;align-items:center;gap:10px;padding:0 10px 20px;font-family:Georgia,serif;font-size:1.2rem}
+.brand span{font-size:1.6rem}
+.nav{display:flex;flex-direction:column;gap:6px}
+.nav button{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:0;border-radius:14px;
+  background:transparent;color:inherit;cursor:pointer;text-align:left;transition:background .2s}
+.nav button:hover{background:rgba(246,240,225,.12)}
+.nav button.active{background:#f6f0e1;color:#1f4d36;font-weight:700}
+.nav .ic{font-size:1.2rem;width:26px;text-align:center}
+.side-foot{margin-top:auto;font-size:.85rem;opacity:.75;padding:0 10px}
+
+/* Header image */
+.main{min-width:0}
+.hero{position:relative;height:240px;overflow:hidden}
+.hero svg{position:absolute;inset:0;width:100%;height:100%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,42,29,.78),rgba(15,42,29,.15) 70%)}
+.hero-text{position:absolute;z-index:1;left:32px;bottom:28px;color:#fff;max-width:520px}
+.hero-text h1{font-size:2rem}
+.hero-text p{margin:6px 0 0;opacity:.92}
+.content{padding:28px 32px 48px;max-width:1000px}
+section.panel{display:none}
+section.panel.active{display:block}
+.title{font-size:1.6rem;margin-bottom:4px}
+.sub{color:var(--muted);margin:0 0 22px}
+
+/* Cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;
+  box-shadow:0 6px 18px rgba(31,77,54,.07)}
+.stat{cursor:pointer;transition:transform .15s,border-color .15s}
+.stat:hover{transform:translateY(-3px);border-color:var(--green-2)}
+.stat .ic{width:46px;height:46px;border-radius:14px;background:var(--green-soft);display:grid;place-items:center;font-size:1.4rem}
+.stat .num{font-family:Georgia,serif;font-size:1.7rem;color:var(--green);margin:12px 0 2px}
+.stat .lab{font-weight:700}
+.stat .note{color:var(--muted);font-size:.9rem}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:12px 26px;
+  background:var(--green);color:#fff;font-weight:700;cursor:pointer;transition:background .2s,transform .1s}
+:root[data-theme="dark"] .btn{color:#0c2217}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#0c2217}}
+.btn:hover{background:var(--green-2)}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:var(--green-soft);color:var(--green)}
+.btn.small{padding:8px 18px;font-size:.92rem}
+.btn:focus-visible,.nav button:focus-visible,.stat:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.welcome{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;
+  background:var(--green-soft);border-radius:var(--radius);padding:22px 24px;margin-bottom:22px}
+
+/* Form */
+form{display:grid;gap:16px;max-width:520px}
+label{font-weight:700;display:grid;gap:6px}
+input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+.msg{display:none;margin-top:16px;padding:14px 18px;border-radius:14px;background:var(--green-soft);color:var(--green);font-weight:700;max-width:520px}
+.msg.show{display:block}
+
+/* Tips, lessons, products */
+.tip{display:flex;gap:14px;align-items:flex-start}
+.tip .ic{font-size:1.5rem}
+.tip h3,.lesson h3,.prod h3{font-size:1.05rem;margin-bottom:4px}
+.tip p,.lesson p,.prod p{margin:0;color:var(--muted);font-size:.95rem}
+.sample{margin-top:20px;border-left:5px solid var(--accent)}
+.lesson .meta{display:flex;justify-content:space-between;align-items:center;margin-top:14px;color:var(--muted);font-size:.9rem}
+.lesson .thumb{height:90px;border-radius:14px;background:var(--green-soft);display:grid;place-items:center;font-size:2.2rem;margin-bottom:14px}
+.prod{padding:0;overflow:hidden}
+.prod svg{display:block;width:100%;height:150px}
+.prod .body{padding:16px 18px 20px}
+.price{display:block;margin:10px 0 12px;font-weight:700;color:var(--green)}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);
+  background:#1f4d36;color:#fff;padding:12px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:20;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* Mobile: sidebar becomes a bottom bar */
+@media (max-width:800px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;top:auto;bottom:0;left:0;right:0;height:auto;flex-direction:row;padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px));z-index:10}
+  .brand,.side-foot{display:none}
+  .nav{flex-direction:row;width:100%;gap:2px}
+  .nav button{flex:1;flex-direction:column;gap:2px;padding:8px 2px;font-size:.68rem;text-align:center;line-height:1.15}
+  .hero{height:200px}
+  .hero-text{left:20px;right:20px}
+  .hero-text h1{font-size:1.6rem}
+  .content{padding:22px 18px 110px}
+  .toast{bottom:calc(90px + env(safe-area-inset-bottom,0px))}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="brand"><span>🏔️</span> Himalayan Connect</div>
+    <nav class="nav" aria-label="Main navigation">
+      <button data-go="dashboard" class="active"><span class="ic">🏠</span>Dashboard</button>
+      <button data-go="business"><span class="ic">🏡</span>My Business</button>
+      <button data-go="promotion"><span class="ic">📣</span>Digital Promotion</button>
+      <button data-go="learning"><span class="ic">🎓</span>Learning Centre</button>
+      <button data-go="products"><span class="ic">🧶</span>Local Products</button>
+    </nav>
+    <div class="side-foot">Rural Tourism Platform</div>
+  </aside>
+
+  <div class="main">
+    <header class="hero">
+      <svg viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Snow-capped Himalayan peaks above a pine valley">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#6fa8d0"/><stop offset=".75" stop-color="#f8e6c4"/>
+          </linearGradient>
+          <g id="pine"><path d="M0 0 L14 30 L-14 30Z"/><path d="M0 16 L19 50 L-19 50Z"/><rect x="-3" y="50" width="6" height="8"/></g>
+        </defs>
+        <rect width="1200" height="300" fill="url(#sky)"/>
+        <circle cx="940" cy="88" r="34" fill="#fff6dc" opacity=".92"/>
+        <path d="M0 225 L150 110 L240 175 L360 55 L490 195 L600 88 L760 205 L900 118 L1040 190 L1200 98 L1200 300 L0 300Z" fill="#9db7c9"/>
+        <g fill="#fff">
+          <path d="M126 129 L150 110 L174 131 L158 124 L150 135 L140 125Z"/>
+          <path d="M328 92 L360 55 L394 96 L374 88 L360 102 L346 88Z"/>
+          <path d="M574 113 L600 88 L626 115 L609 108 L598 120 L588 109Z"/>
+          <path d="M878 137 L900 118 L924 139 L908 132 L898 143 L890 135Z"/>
+          <path d="M1170 123 L1200 98 L1200 125 L1186 120 L1178 128Z"/>
+        </g>
+        <path d="M0 252 L120 192 L260 246 L420 172 L580 252 L740 187 L900 252 L1060 182 L1200 242 L1200 300 L0 300Z" fill="#4f7f6a"/>
+        <path d="M0 282 Q300 232 600 272 T1200 262 L1200 300 L0 300Z" fill="#1f4d36"/>
+        <g fill="#163a29">
+          <use href="#pine" x="60" y="228"/><use href="#pine" x="110" y="240" transform="translate(0 4)"/>
+          <use href="#pine" x="300" y="238"/><use href="#pine" x="350" y="246"/>
+          <use href="#pine" x="680" y="236"/><use href="#pine" x="1010" y="232"/>
+          <use href="#pine" x="1070" y="242"/><use href="#pine" x="1140" y="230"/>
+        </g>
+      </svg>
+      <div class="hero-text">
+        <h1>Himalayan Connect</h1>
+        <p>Rural Tourism Platform: helping mountain villages share their stories and welcome visitors.</p>
+      </div>
+    </header>
+
+    <main class="content">
+
+      <!-- Dashboard -->
+      <section id="dashboard" class="panel active">
+        <div class="welcome">
+          <div>
+            <h2 class="title">Welcome to Himalayan Connect!</h2>
+            <p class="sub" style="margin:0">Grow your homestay, shop or craft with tourists from around the world.</p>
+          </div>
+          <button class="btn" data-go="business">🌿 Register Your Business</button>
+        </div>
+        <div class="grid">
+          <div class="card stat" tabindex="0" role="button" data-go="business">
+            <div class="ic">🏡</div>
+            <div class="num" id="bizName">Mountain View Homestay</div>
+            <div class="lab">My Business</div>
+            <div class="note" id="bizNote">Sample listing, tap to edit</div>
+          </div>
+          <div class="card stat" tabindex="0" role="button" data-go="promotion">
+            <div class="ic">👥</div>
+            <div class="num">1,240</div>
+            <div class="lab">Customer Reach</div>
+            <div class="note">People who viewed your page this month</div>
+          </div>
+          <div class="card stat" tabindex="0" role="button" data-go="promotion">
+            <div class="ic">📅</div>
+            <div class="num">18</div>
+            <div class="lab">Bookings</div>
+            <div class="note">Confirmed stays this month</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- My Business -->
+      <section id="business" class="panel">
+        <h2 class="title">My Business</h2>
+        <p class="sub">Tell travellers about your business. This is sample data only and is not saved.</p>
+        <form id="bizForm">
+          <label>Business name
+            <input type="text" id="fName" placeholder="e.g. Mountain View Homestay" required>
+          </label>
+          <label>Owner name
+            <input type="text" id="fOwner" placeholder="e.g. Sunita Devi" required>
+          </label>
+          <label>Business category
+            <select id="fCat" required>
+              <option value="">Choose a category</option>
+              <option>Homestay</option>
+              <option>Handicrafts</option>
+              <option>Local food</option>
+              <option>Trekking guide</option>
+              <option>Taxi and transport</option>
+            </select>
+          </label>
+          <div><button class="btn" type="submit">Register Business</button></div>
+        </form>
+        <div class="msg" id="formMsg" role="status"></div>
+      </section>
+
+      <!-- Digital Promotion -->
+      <section id="promotion" class="panel">
+        <h2 class="title">Digital Promotion</h2>
+        <p class="sub">Simple social media tips to reach more tourists.</p>
+        <div class="grid">
+          <div class="card tip"><div class="ic">📸</div><div><h3>Post clear photos</h3><p>Show your rooms, views and products in daylight. Post at least twice a week.</p></div></div>
+          <div class="card tip"><div class="ic">💬</div><div><h3>Use WhatsApp Business</h3><p>Add your prices and a greeting message so guests can book quickly.</p></div></div>
+          <div class="card tip"><div class="ic">#️⃣</div><div><h3>Add hashtags</h3><p>Try #VisitHimalayas, #Homestay and your village name on every post.</p></div></div>
+          <div class="card tip"><div class="ic">🎬</div><div><h3>Share short videos</h3><p>A 15 second clip of sunrise, cooking or weaving gets noticed fast.</p></div></div>
+          <div class="card tip"><div class="ic">⭐</div><div><h3>Ask for reviews</h3><p>Ask happy guests to rate you on Google Maps and share a photo.</p></div></div>
+          <div class="card tip"><div class="ic">📍</div><div><h3>Pin your location</h3><p>List your business on Google Maps so visitors can find the way.</p></div></div>
+        </div>
+        <div class="card sample">
+          <h3>Sample post</h3>
+          <p>“Wake up to snow peaks and fresh mountain tea. Rooms available this season! Message us on WhatsApp to book. #VisitHimalayas #Homestay”</p>
+        </div>
+      </section>
+
+      <!-- Learning Centre -->
+      <section id="learning" class="panel">
+        <h2 class="title">Learning Centre</h2>
+        <p class="sub">Short lessons to help you get started online.</p>
+        <div class="grid">
+          <div class="card lesson"><div class="thumb">📱</div><h3>Getting started with smartphone photos</h3><p>Learn light, angles and cleaning your lens for better pictures.</p>
+            <div class="meta"><span>8 min lesson</span><button class="btn small ghost" data-lesson>Start lesson</button></div></div>
+          <div class="card lesson"><div class="thumb">🛒</div><h3>Setting up your online shop</h3><p>List your products, set prices and take orders by message.</p>
+            <div class="meta"><span>12 min lesson</span><button class="btn small ghost" data-lesson>Start lesson</button></div></div>
+          <div class="card lesson"><div class="thumb">💳</div><h3>Accepting digital payments</h3><p>Use UPI and QR codes to get paid safely and quickly.</p>
+            <div class="meta"><span>10 min lesson</span><button class="btn small ghost" data-lesson>Start lesson</button></div></div>
+        </div>
+      </section>
+
+      <!-- Local Products -->
+      <section id="products" class="panel">
+        <h2 class="title">Local Products</h2>
+        <p class="sub">Sample handicrafts and food made in Himalayan villages.</p>
+        <div class="grid">
+          <article class="card prod">
+            <svg viewBox="0 0 240 150" role="img" aria-label="Woollen shawl illustration">
+              <rect width="240" height="150" fill="#f1dcc0"/>
+              <rect x="45" y="22" width="150" height="90" rx="8" fill="#b5532f"/>
+              <rect x="45" y="42" width="150" height="9" fill="#f6f0e1"/><rect x="45" y="60" width="150" height="14" fill="#1f4d36"/>
+              <rect x="45" y="83" width="150" height="9" fill="#f6f0e1"/>
+              <g stroke="#b5532f" stroke-width="3" stroke-linecap="round">
+                <path d="M55 112v16M70 112v16M85 112v16M100 112v16M115 112v16M130 112v16M145 112v16M160 112v16M175 112v16M188 112v16"/></g>
+            </svg>
+            <div class="body"><h3>Woollen shawl</h3><p>Hand-woven by village women using soft local wool.</p>
+              <span class="price">₹1,200</span><button class="btn small" data-add="Woollen shawl">Add to showcase</button></div>
+          </article>
+          <article class="card prod">
+            <svg viewBox="0 0 240 150" role="img" aria-label="Carved wooden bowl illustration">
+              <rect width="240" height="150" fill="#e3eee6"/>
+              <path d="M55 70 Q120 150 185 70Z" fill="#8a5a33"/>
+              <ellipse cx="120" cy="70" rx="65" ry="14" fill="#a9733f"/>
+              <ellipse cx="120" cy="70" rx="53" ry="9" fill="#6f4624"/>
+              <path d="M75 92 Q120 118 165 92" stroke="#c8923a" stroke-width="3" fill="none"/>
+            </svg>
+            <div class="body"><h3>Carved wooden bowl</h3><p>Shaped from walnut wood and finished by hand.</p>
+              <span class="price">₹650</span><button class="btn small" data-add="Carved wooden bowl">Add to showcase</button></div>
+          </article>
+          <article class="card prod">
+            <svg viewBox="0 0 240 150" role="img" aria-label="Jar of wild honey illustration">
+              <rect width="240" height="150" fill="#fbeccb"/>
+              <rect x="85" y="28" width="70" height="14" rx="5" fill="#6f4624"/>
+              <rect x="78" y="42" width="84" height="92" rx="18" fill="#e9a825"/>
+              <rect x="92" y="66" width="56" height="40" rx="8" fill="#f6f0e1"/>
+              <path d="M104 86h32M110 94h20" stroke="#1f4d36" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+            <div class="body"><h3>Wild mountain honey</h3><p>Pure honey collected from forest hives, no additives.</p>
+              <span class="price">₹450</span><button class="btn small" data-add="Wild mountain honey">Add to showcase</button></div>
+          </article>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  var panels = ["dashboard","business","promotion","learning","products"];
+  var toastEl = document.getElementById("toast"), timer;
+
+  function toast(text){
+    toastEl.textContent = text;
+    toastEl.classList.add("show");
+    clearTimeout(timer);
+    timer = setTimeout(function(){ toastEl.classList.remove("show"); }, 2200);
+  }
+
+  function show(id){
+    if(panels.indexOf(id) === -1) id = "dashboard";
+    panels.forEach(function(p){
+      document.getElementById(p).classList.toggle("active", p === id);
+    });
+    document.querySelectorAll(".nav button").forEach(function(b){
+      b.classList.toggle("active", b.getAttribute("data-go") === id);
+    });
+    window.scrollTo(0, 0);
+  }
+
+  function go(id){
+    if(location.hash.slice(1) === id){ show(id); } else { location.hash = id; }
+  }
+
+  document.querySelectorAll("[data-go]").forEach(function(el){
+    el.addEventListener("click", function(){ go(el.getAttribute("data-go")); });
+    el.addEventListener("keydown", function(e){
+      if((e.key === "Enter" || e.key === " ") && el.tagName !== "BUTTON"){ e.preventDefault(); go(el.getAttribute("data-go")); }
+    });
+  });
+  window.addEventListener("hashchange", function(){ show(location.hash.slice(1)); });
+  show(location.hash.slice(1));
+
+  document.getElementById("bizForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var name = document.getElementById("fName").value.trim();
+    var owner = document.getElementById("fOwner").value.trim();
+    var cat = document.getElementById("fCat").value;
+    var msg = document.getElementById("formMsg");
+    msg.textContent = "Thank you, " + owner + "! " + name + " (" + cat + ") is now registered.";
+    msg.classList.add("show");
+    document.getElementById("bizName").textContent = name;
+    document.getElementById("bizNote").textContent = cat + ", owned by " + owner;
+    toast("Business registered");
+  });
+
+  document.querySelectorAll("[data-lesson]").forEach(function(b){
+    b.addEventListener("click", function(){
+      var started = b.classList.toggle("started");
+      b.textContent = started ? "Lesson started ✓" : "Start lesson";
+      if(started) toast("Sample lesson started");
+    });
+  });
+
+  document.querySelectorAll("[data-add]").forEach(function(b){
+    b.addEventListener("click", function(){
+      b.textContent = "Added ✓";
+      toast(b.getAttribute("data-add") + " added to your showcase");
+    });
+  });
+})();
+</script>
+</body>
+</html>

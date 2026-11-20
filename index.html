@@ -169,7 +169,7 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
           <use href="#pine" x="1070" y="242"/><use href="#pine" x="1140" y="230"/>
         </g>
       </svg>
-      <div class="lang" role="group" aria-label="Language"><span aria-hidden="true">🌐</span><button type="button" data-lang="en" class="on">English</button><button type="button" data-lang="hi">हिन्दी</button><button type="button" data-lang="ne">नेपाली</button></div>
+      <div class="lang" role="group" aria-label="Language"><span aria-hidden="true">🌐</span><button type="button" data-lang="en" class="on">English</button><button type="button" data-lang="hi">हिन्दी</button></div>
       <div class="hero-text">
         <h1>Himalayan Connect</h1>
         <p>Rural Tourism Platform: helping mountain villages share their stories and welcome visitors.</p>
@@ -320,71 +320,71 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
   var toastEl = document.getElementById("toast"), timer, reg = null, lang = "en";
   var CATS = ["", "Homestay", "Handicrafts", "Local food", "Trekking guide", "Taxi and transport"];
   try{ lang = localStorage.getItem("hc-lang") || "en"; }catch(e){}
-  if(["en","hi","ne"].indexOf(lang) === -1) lang = "en";
+  if(["en","hi"].indexOf(lang) === -1) lang = "en";
 
-  /* English text on the page -> [Hindi, Nepali]. Anything missing stays in English. */
+  /* English text on the page -> Hindi. Anything missing stays in English. */
   var T = {
-    "Himalayan Connect":["हिमालयन कनेक्ट","हिमालयन कनेक्ट"],
-    "Dashboard":["डैशबोर्ड","ड्यासबोर्ड"],
-    "My Business":["मेरा व्यवसाय","मेरो व्यवसाय"],
-    "Digital Promotion":["डिजिटल प्रचार","डिजिटल प्रचार"],
-    "Learning Centre":["सीखने का केंद्र","सिकाइ केन्द्र"],
-    "Local Products":["स्थानीय उत्पाद","स्थानीय उत्पादन"],
-    "Rural Tourism Platform":["ग्रामीण पर्यटन मंच","ग्रामीण पर्यटन मञ्च"],
-    "Rural Tourism Platform: helping mountain villages share their stories and welcome visitors.":["ग्रामीण पर्यटन मंच: पहाड़ी गाँवों को अपनी कहानियाँ साझा करने और सैलानियों का स्वागत करने में मदद।","ग्रामीण पर्यटन मञ्च: पहाडी गाउँहरूलाई आफ्ना कथा बाँड्न र पर्यटकलाई स्वागत गर्न मद्दत।"],
-    "Welcome to Himalayan Connect!":["हिमालयन कनेक्ट में आपका स्वागत है!","हिमालयन कनेक्टमा तपाईंलाई स्वागत छ!"],
-    "Grow your homestay, shop or craft with tourists from around the world.":["दुनिया भर के पर्यटकों के साथ अपना होमस्टे, दुकान या हस्तशिल्प बढ़ाएँ।","संसारभरका पर्यटकहरूसँग आफ्नो होमस्टे, पसल वा हस्तकला बढाउनुहोस्।"],
-    "🌿 Register Your Business":["🌿 अपना व्यवसाय पंजीकृत करें","🌿 आफ्नो व्यवसाय दर्ता गर्नुहोस्"],
-    "Mountain View Homestay":["माउंटेन व्यू होमस्टे","माउन्टेन भ्यु होमस्टे"],
-    "Customer Reach":["ग्राहक पहुँच","ग्राहक पहुँच"],
-    "People who viewed your page this month":["इस महीने आपका पेज देखने वाले लोग","यस महिना तपाईंको पेज हेर्ने मानिसहरू"],
-    "Bookings":["बुकिंग","बुकिङ"],
-    "Confirmed stays this month":["इस महीने की पक्की बुकिंग","यस महिनाका पक्का बुकिङ"],
-    "Tell travellers about your business. This is sample data only and is not saved.":["यात्रियों को अपने व्यवसाय के बारे में बताइए। यह केवल नमूना डेटा है और सहेजा नहीं जाता।","यात्रुहरूलाई आफ्नो व्यवसायबारे बताउनुहोस्। यो नमुना डेटा मात्र हो र सुरक्षित गरिँदैन।"],
-    "Business name":["व्यवसाय का नाम","व्यवसायको नाम"],
-    "Owner name":["मालिक का नाम","मालिकको नाम"],
-    "Business category":["व्यवसाय की श्रेणी","व्यवसायको श्रेणी"],
-    "e.g. Mountain View Homestay":["जैसे: माउंटेन व्यू होमस्टे","जस्तै: माउन्टेन भ्यु होमस्टे"],
-    "e.g. Sunita Devi":["जैसे: सुनीता देवी","जस्तै: सुनिता देवी"],
-    "Choose a category":["श्रेणी चुनें","श्रेणी छान्नुहोस्"],
-    "Homestay":["होमस्टे","होमस्टे"],
-    "Handicrafts":["हस्तशिल्प","हस्तकला"],
-    "Local food":["स्थानीय भोजन","स्थानीय खाना"],
-    "Trekking guide":["ट्रेकिंग गाइड","ट्रेकिङ गाइड"],
-    "Taxi and transport":["टैक्सी और परिवहन","ट्याक्सी र यातायात"],
-    "Register Business":["व्यवसाय पंजीकृत करें","व्यवसाय दर्ता गर्नुहोस्"],
-    "Simple social media tips to reach more tourists.":["ज़्यादा पर्यटकों तक पहुँचने के लिए सोशल मीडिया के आसान सुझाव।","धेरै पर्यटकसम्म पुग्न सामाजिक सञ्जालका सजिला सुझावहरू।"],
-    "Post clear photos":["साफ़ तस्वीरें डालें","स्पष्ट फोटो राख्नुहोस्"],
-    "Show your rooms, views and products in daylight. Post at least twice a week.":["दिन की रोशनी में अपने कमरे, नज़ारे और सामान की तस्वीरें दिखाएँ। हफ़्ते में कम से कम दो बार पोस्ट करें।","दिउँसोको उज्यालोमा आफ्ना कोठा, दृश्य र सामानका फोटो देखाउनुहोस्। हप्तामा कम्तीमा दुई पटक पोस्ट गर्नुहोस्।"],
-    "Use WhatsApp Business":["व्हाट्सऐप बिज़नेस इस्तेमाल करें","ह्वाट्सएप बिजनेस प्रयोग गर्नुहोस्"],
-    "Add your prices and a greeting message so guests can book quickly.":["अपनी कीमतें और स्वागत संदेश जोड़ें ताकि मेहमान जल्दी बुकिंग कर सकें।","आफ्ना मूल्य र स्वागत सन्देश थप्नुहोस् ताकि पाहुनाले छिट्टै बुक गर्न सकून्।"],
-    "Add hashtags":["हैशटैग जोड़ें","ह्यासट्याग थप्नुहोस्"],
-    "Try #VisitHimalayas, #Homestay and your village name on every post.":["हर पोस्ट पर #VisitHimalayas, #Homestay और अपने गाँव का नाम लगाएँ।","हरेक पोस्टमा #VisitHimalayas, #Homestay र आफ्नो गाउँको नाम राख्नुहोस्।"],
-    "Share short videos":["छोटे वीडियो साझा करें","छोटा भिडियो सेयर गर्नुहोस्"],
-    "A 15 second clip of sunrise, cooking or weaving gets noticed fast.":["सूर्योदय, खाना बनाने या बुनाई की 15 सेकंड की क्लिप जल्दी ध्यान खींचती है।","सूर्योदय, खाना पकाउने वा बुनाइको 15 सेकेन्डको क्लिपले छिट्टै ध्यान खिच्छ।"],
-    "Ask for reviews":["समीक्षा माँगें","समीक्षा माग्नुहोस्"],
-    "Ask happy guests to rate you on Google Maps and share a photo.":["खुश मेहमानों से गूगल मैप्स पर रेटिंग देने और फोटो साझा करने को कहें।","खुसी पाहुनाहरूलाई गुगल म्यापमा रेटिङ दिन र फोटो सेयर गर्न भन्नुहोस्।"],
-    "Pin your location":["अपनी लोकेशन पिन करें","आफ्नो लोकेसन पिन गर्नुहोस्"],
-    "List your business on Google Maps so visitors can find the way.":["अपना व्यवसाय गूगल मैप्स पर जोड़ें ताकि पर्यटकों को रास्ता मिल सके।","आफ्नो व्यवसाय गुगल म्यापमा राख्नुहोस् ताकि पर्यटकले बाटो भेट्न सकून्।"],
-    "Sample post":["नमूना पोस्ट","नमुना पोस्ट"],
-    "“Wake up to snow peaks and fresh mountain tea. Rooms available this season! Message us on WhatsApp to book. #VisitHimalayas #Homestay”":["“बर्फ़ीली चोटियों और ताज़ी पहाड़ी चाय के साथ जागिए। इस मौसम में कमरे उपलब्ध हैं! बुकिंग के लिए हमें व्हाट्सऐप पर संदेश भेजें। #VisitHimalayas #Homestay”","“हिउँले ढाकेका चुचुरा र ताजा पहाडी चियासँग ब्यूँझनुहोस्। यो सिजनमा कोठाहरू उपलब्ध छन्! बुक गर्न हामीलाई ह्वाट्सएपमा सन्देश पठाउनुहोस्। #VisitHimalayas #Homestay”"],
-    "Short lessons to help you get started online.":["ऑनलाइन शुरुआत करने में मदद के लिए छोटे पाठ।","अनलाइन सुरु गर्न मद्दत गर्ने छोटा पाठहरू।"],
-    "Getting started with smartphone photos":["स्मार्टफ़ोन से फोटो खींचने की शुरुआत","स्मार्टफोनबाट फोटो खिच्ने सुरुवात"],
-    "Learn light, angles and cleaning your lens for better pictures.":["बेहतर तस्वीरों के लिए रोशनी, कोण और कैमरे का लेंस साफ़ करना सीखें।","राम्रा फोटोका लागि उज्यालो, कोण र लेन्स सफा गर्न सिक्नुहोस्।"],
-    "8 min lesson":["8 मिनट का पाठ","8 मिनेटको पाठ"],
-    "Setting up your online shop":["अपनी ऑनलाइन दुकान शुरू करें","आफ्नो अनलाइन पसल सुरु गर्नुहोस्"],
-    "List your products, set prices and take orders by message.":["अपने उत्पाद सूचीबद्ध करें, कीमतें तय करें और संदेश पर ऑर्डर लें।","आफ्ना सामान सूचीमा राख्नुहोस्, मूल्य तोक्नुहोस् र सन्देशबाट अर्डर लिनुहोस्।"],
-    "12 min lesson":["12 मिनट का पाठ","12 मिनेटको पाठ"],
-    "Accepting digital payments":["डिजिटल भुगतान स्वीकार करना","डिजिटल भुक्तानी स्वीकार गर्ने तरिका"],
-    "Use UPI and QR codes to get paid safely and quickly.":["सुरक्षित और तेज़ी से पैसे पाने के लिए UPI और QR कोड इस्तेमाल करें।","सुरक्षित र छिटो पैसा पाउन UPI र QR कोड प्रयोग गर्नुहोस्।"],
-    "10 min lesson":["10 मिनट का पाठ","10 मिनेटको पाठ"],
-    "Sample handicrafts and food made in Himalayan villages.":["हिमालयी गाँवों में बने हस्तशिल्प और खाने के नमूना उत्पाद।","हिमाली गाउँमा बनेका हस्तकला र खानाका नमुना उत्पादनहरू।"],
-    "Woollen shawl":["ऊनी शॉल","ऊनी सल"],
-    "Hand-woven by village women using soft local wool.":["गाँव की महिलाओं द्वारा नरम स्थानीय ऊन से हाथ से बुनी गई।","गाउँका महिलाहरूले नरम स्थानीय ऊनबाट हातले बुनेको।"],
-    "Carved wooden bowl":["नक्काशीदार लकड़ी का कटोरा","कुँदिएको काठको कचौरा"],
-    "Shaped from walnut wood and finished by hand.":["अखरोट की लकड़ी से बना और हाथ से तराशा गया।","ओखरको काठबाट बनेको र हातले चिल्लो बनाइएको।"],
-    "Wild mountain honey":["जंगली पहाड़ी शहद","जंगली पहाडी मह"],
-    "Pure honey collected from forest hives, no additives.":["जंगल के छत्तों से इकट्ठा किया गया शुद्ध शहद, कोई मिलावट नहीं।","जङ्गलका मौरीका गोलाबाट सङ्कलन गरिएको शुद्ध मह, कुनै मिसावट छैन।"]
+    "Himalayan Connect":"हिमालयन कनेक्ट",
+    "Dashboard":"डैशबोर्ड",
+    "My Business":"मेरा व्यवसाय",
+    "Digital Promotion":"डिजिटल प्रचार",
+    "Learning Centre":"सीखने का केंद्र",
+    "Local Products":"स्थानीय उत्पाद",
+    "Rural Tourism Platform":"ग्रामीण पर्यटन मंच",
+    "Rural Tourism Platform: helping mountain villages share their stories and welcome visitors.":"ग्रामीण पर्यटन मंच: पहाड़ी गाँवों को अपनी कहानियाँ साझा करने और सैलानियों का स्वागत करने में मदद।",
+    "Welcome to Himalayan Connect!":"हिमालयन कनेक्ट में आपका स्वागत है!",
+    "Grow your homestay, shop or craft with tourists from around the world.":"दुनिया भर के पर्यटकों के साथ अपना होमस्टे, दुकान या हस्तशिल्प बढ़ाएँ।",
+    "🌿 Register Your Business":"🌿 अपना व्यवसाय पंजीकृत करें",
+    "Mountain View Homestay":"माउंटेन व्यू होमस्टे",
+    "Customer Reach":"ग्राहक पहुँच",
+    "People who viewed your page this month":"इस महीने आपका पेज देखने वाले लोग",
+    "Bookings":"बुकिंग",
+    "Confirmed stays this month":"इस महीने की पक्की बुकिंग",
+    "Tell travellers about your business. This is sample data only and is not saved.":"यात्रियों को अपने व्यवसाय के बारे में बताइए। यह केवल नमूना डेटा है और सहेजा नहीं जाता।",
+    "Business name":"व्यवसाय का नाम",
+    "Owner name":"मालिक का नाम",
+    "Business category":"व्यवसाय की श्रेणी",
+    "e.g. Mountain View Homestay":"जैसे: माउंटेन व्यू होमस्टे",
+    "e.g. Sunita Devi":"जैसे: सुनीता देवी",
+    "Choose a category":"श्रेणी चुनें",
+    "Homestay":"होमस्टे",
+    "Handicrafts":"हस्तशिल्प",
+    "Local food":"स्थानीय भोजन",
+    "Trekking guide":"ट्रेकिंग गाइड",
+    "Taxi and transport":"टैक्सी और परिवहन",
+    "Register Business":"व्यवसाय पंजीकृत करें",
+    "Simple social media tips to reach more tourists.":"ज़्यादा पर्यटकों तक पहुँचने के लिए सोशल मीडिया के आसान सुझाव।",
+    "Post clear photos":"साफ़ तस्वीरें डालें",
+    "Show your rooms, views and products in daylight. Post at least twice a week.":"दिन की रोशनी में अपने कमरे, नज़ारे और सामान की तस्वीरें दिखाएँ। हफ़्ते में कम से कम दो बार पोस्ट करें।",
+    "Use WhatsApp Business":"व्हाट्सऐप बिज़नेस इस्तेमाल करें",
+    "Add your prices and a greeting message so guests can book quickly.":"अपनी कीमतें और स्वागत संदेश जोड़ें ताकि मेहमान जल्दी बुकिंग कर सकें।",
+    "Add hashtags":"हैशटैग जोड़ें",
+    "Try #VisitHimalayas, #Homestay and your village name on every post.":"हर पोस्ट पर #VisitHimalayas, #Homestay और अपने गाँव का नाम लगाएँ।",
+    "Share short videos":"छोटे वीडियो साझा करें",
+    "A 15 second clip of sunrise, cooking or weaving gets noticed fast.":"सूर्योदय, खाना बनाने या बुनाई की 15 सेकंड की क्लिप जल्दी ध्यान खींचती है।",
+    "Ask for reviews":"समीक्षा माँगें",
+    "Ask happy guests to rate you on Google Maps and share a photo.":"खुश मेहमानों से गूगल मैप्स पर रेटिंग देने और फोटो साझा करने को कहें।",
+    "Pin your location":"अपनी लोकेशन पिन करें",
+    "List your business on Google Maps so visitors can find the way.":"अपना व्यवसाय गूगल मैप्स पर जोड़ें ताकि पर्यटकों को रास्ता मिल सके।",
+    "Sample post":"नमूना पोस्ट",
+    "“Wake up to snow peaks and fresh mountain tea. Rooms available this season! Message us on WhatsApp to book. #VisitHimalayas #Homestay”":"“बर्फ़ीली चोटियों और ताज़ी पहाड़ी चाय के साथ जागिए। इस मौसम में कमरे उपलब्ध हैं! बुकिंग के लिए हमें व्हाट्सऐप पर संदेश भेजें। #VisitHimalayas #Homestay”",
+    "Short lessons to help you get started online.":"ऑनलाइन शुरुआत करने में मदद के लिए छोटे पाठ।",
+    "Getting started with smartphone photos":"स्मार्टफ़ोन से फोटो खींचने की शुरुआत",
+    "Learn light, angles and cleaning your lens for better pictures.":"बेहतर तस्वीरों के लिए रोशनी, कोण और कैमरे का लेंस साफ़ करना सीखें।",
+    "8 min lesson":"8 मिनट का पाठ",
+    "Setting up your online shop":"अपनी ऑनलाइन दुकान शुरू करें",
+    "List your products, set prices and take orders by message.":"अपने उत्पाद सूचीबद्ध करें, कीमतें तय करें और संदेश पर ऑर्डर लें।",
+    "12 min lesson":"12 मिनट का पाठ",
+    "Accepting digital payments":"डिजिटल भुगतान स्वीकार करना",
+    "Use UPI and QR codes to get paid safely and quickly.":"सुरक्षित और तेज़ी से पैसे पाने के लिए UPI और QR कोड इस्तेमाल करें।",
+    "10 min lesson":"10 मिनट का पाठ",
+    "Sample handicrafts and food made in Himalayan villages.":"हिमालयी गाँवों में बने हस्तशिल्प और खाने के नमूना उत्पाद।",
+    "Woollen shawl":"ऊनी शॉल",
+    "Hand-woven by village women using soft local wool.":"गाँव की महिलाओं द्वारा नरम स्थानीय ऊन से हाथ से बुनी गई।",
+    "Carved wooden bowl":"नक्काशीदार लकड़ी का कटोरा",
+    "Shaped from walnut wood and finished by hand.":"अखरोट की लकड़ी से बना और हाथ से तराशा गया।",
+    "Wild mountain honey":"जंगली पहाड़ी शहद",
+    "Pure honey collected from forest hives, no additives.":"जंगल के छत्तों से इकट्ठा किया गया शुद्ध शहद, कोई मिलावट नहीं।"
   };
 
   /* Text that changes while the page is used */
@@ -394,15 +394,12 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
         lessonT:"Sample lesson started",addT:"{p} added to your showcase"},
     hi:{start:"पाठ शुरू करें",started:"पाठ शुरू हुआ ✓",add:"शोकेस में जोड़ें",added:"जोड़ा गया ✓",note0:"नमूना लिस्टिंग, बदलने के लिए टैप करें",
         note:"{cat}, मालिक: {owner}",thanks:"धन्यवाद, {owner}! {name} ({cat}) अब पंजीकृत है।",regT:"व्यवसाय पंजीकृत हुआ",
-        lessonT:"नमूना पाठ शुरू हुआ",addT:"{p} आपके शोकेस में जोड़ा गया"},
-    ne:{start:"पाठ सुरु गर्नुहोस्",started:"पाठ सुरु भयो ✓",add:"शोकेसमा थप्नुहोस्",added:"थपियो ✓",note0:"नमुना सूची, परिवर्तन गर्न ट्याप गर्नुहोस्",
-        note:"{cat}, मालिक: {owner}",thanks:"धन्यवाद, {owner}! {name} ({cat}) अब दर्ता भयो।",regT:"व्यवसाय दर्ता भयो",
-        lessonT:"नमुना पाठ सुरु भयो",addT:"{p} तपाईंको शोकेसमा थपियो"}
+        lessonT:"नमूना पाठ शुरू हुआ",addT:"{p} आपके शोकेस में जोड़ा गया"}
   };
 
   var orig = new WeakMap();
   var skip = "[data-lesson],[data-add],#bizNote,#formMsg,#toast,.lang";
-  function tr(s){ var e = T[s]; return (e && lang !== "en") ? e[lang === "hi" ? 0 : 1] : s; }
+  function tr(s){ var e = T[s]; return (e && lang !== "en") ? e : s; }
   function fmt(s, o){ return s.replace(/\{(\w+)\}/g, function(m, k){ return o[k]; }); }
 
   function applyLang(){

@@ -105,6 +105,16 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
   background:#1f4d36;color:#fff;padding:12px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:.25s;z-index:20;text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
+/* Profile */
+.pcard{display:flex;gap:20px;align-items:center;margin-bottom:22px;max-width:620px}
+.avatar{width:84px;height:84px;border-radius:50%;background:var(--green-soft);display:grid;place-items:center;font-size:2.6rem;flex:none}
+.pcard h3{font-size:1.3rem}
+.pinfo{margin:8px 0 0;display:grid;gap:4px;color:var(--muted);font-size:.95rem}
+.pinfo b{color:var(--ink)}
+.pabout{margin:10px 0 0;color:var(--muted);font-size:.95rem}
+textarea{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);resize:vertical;min-height:90px}
+textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
 /* Language switch */
 .lang{position:absolute;z-index:2;top:14px;right:16px;display:flex;align-items:center;gap:4px;padding:4px 6px 4px 10px;border-radius:999px;background:rgba(255,255,255,.88)}
 .lang button{border:0;background:transparent;color:#1f4d36;padding:6px 12px;border-radius:999px;cursor:pointer;font-weight:700;font-size:.9rem}
@@ -137,6 +147,7 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
       <button data-go="promotion"><span class="ic">📣</span>Digital Promotion</button>
       <button data-go="learning"><span class="ic">🎓</span>Learning Centre</button>
       <button data-go="products"><span class="ic">🧶</span>Local Products</button>
+      <button data-go="profile"><span class="ic">👤</span>My Profile</button>
     </nav>
     <div class="side-foot">Rural Tourism Platform</div>
   </aside>
@@ -309,6 +320,38 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
         </div>
       </section>
 
+      <!-- My Profile -->
+      <section id="profile" class="panel">
+        <h2 class="title">My Profile</h2>
+        <p class="sub">Keep your details up to date so travellers can reach you. This is sample data only and is not saved.</p>
+        <div class="card pcard">
+          <div class="avatar" aria-hidden="true">🧑‍🌾</div>
+          <div>
+            <h3 id="pName">Sunita Devi</h3>
+            <div class="pinfo">
+              <div><b>Village:</b> <span id="pVillage">Chopta, Uttarakhand</span></div>
+              <div><b>Phone / WhatsApp:</b> <span id="pPhone">+91 98765 43210</span></div>
+            </div>
+            <p class="pabout" id="pAbout">I run a small homestay with mountain views and home-cooked meals.</p>
+          </div>
+        </div>
+        <form id="profForm">
+          <label>Full name
+            <input type="text" id="pfName" placeholder="e.g. Sunita Devi" required>
+          </label>
+          <label>Village
+            <input type="text" id="pfVillage" placeholder="e.g. Chopta, Uttarakhand" required>
+          </label>
+          <label>Phone number (WhatsApp)
+            <input type="tel" id="pfPhone" placeholder="e.g. +91 98765 43210" required>
+          </label>
+          <label>About me
+            <textarea id="pfAbout" placeholder="Tell guests a little about you and your village"></textarea>
+          </label>
+          <div><button class="btn" type="submit">Save Profile</button></div>
+        </form>
+      </section>
+
     </main>
   </div>
 </div>
@@ -316,7 +359,7 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
 
 <script>
 (function(){
-  var panels = ["dashboard","business","promotion","learning","products"];
+  var panels = ["dashboard","business","promotion","learning","products","profile"];
   var toastEl = document.getElementById("toast"), timer, reg = null, lang = "en";
   var CATS = ["", "Homestay", "Handicrafts", "Local food", "Trekking guide", "Taxi and transport"];
   try{ lang = localStorage.getItem("hc-lang") || "en"; }catch(e){}
@@ -384,7 +427,22 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
     "Carved wooden bowl":["नक्काशीदार लकड़ी का कटोरा","कुँदिएको काठको कचौरा"],
     "Shaped from walnut wood and finished by hand.":["अखरोट की लकड़ी से बना और हाथ से तराशा गया।","ओखरको काठबाट बनेको र हातले चिल्लो बनाइएको।"],
     "Wild mountain honey":["जंगली पहाड़ी शहद","जंगली पहाडी मह"],
-    "Pure honey collected from forest hives, no additives.":["जंगल के छत्तों से इकट्ठा किया गया शुद्ध शहद, कोई मिलावट नहीं।","जङ्गलका मौरीका गोलाबाट सङ्कलन गरिएको शुद्ध मह, कुनै मिसावट छैन।"]
+    "Pure honey collected from forest hives, no additives.":["जंगल के छत्तों से इकट्ठा किया गया शुद्ध शहद, कोई मिलावट नहीं।","जङ्गलका मौरीका गोलाबाट सङ्कलन गरिएको शुद्ध मह, कुनै मिसावट छैन।"],
+    "My Profile":["मेरी प्रोफ़ाइल","मेरो प्रोफाइल"],
+    "Keep your details up to date so travellers can reach you. This is sample data only and is not saved.":["अपनी जानकारी अपडेट रखें ताकि यात्री आप तक पहुँच सकें। यह केवल नमूना डेटा है और सहेजा नहीं जाता।","आफ्नो विवरण अद्यावधिक राख्नुहोस् ताकि यात्रुहरूले तपाईंसँग सम्पर्क गर्न सकून्। यो नमुना डेटा मात्र हो र सुरक्षित गरिँदैन।"],
+    "Sunita Devi":["सुनीता देवी","सुनिता देवी"],
+    "Village:":["गाँव:","गाउँ:"],
+    "Chopta, Uttarakhand":["चोपता, उत्तराखंड","चोपता, उत्तराखण्ड"],
+    "Phone / WhatsApp:":["फ़ोन / व्हाट्सऐप:","फोन / ह्वाट्सएप:"],
+    "I run a small homestay with mountain views and home-cooked meals.":["मैं पहाड़ी नज़ारों और घर के बने खाने वाला एक छोटा होमस्टे चलाती हूँ।","म पहाडी दृश्य र घरमै बनेको खानासहितको सानो होमस्टे चलाउँछु।"],
+    "Full name":["पूरा नाम","पूरा नाम"],
+    "Village":["गाँव","गाउँ"],
+    "Phone number (WhatsApp)":["फ़ोन नंबर (व्हाट्सऐप)","फोन नम्बर (ह्वाट्सएप)"],
+    "About me":["मेरे बारे में","मेरो बारेमा"],
+    "e.g. Chopta, Uttarakhand":["जैसे: चोपता, उत्तराखंड","जस्तै: चोपता, उत्तराखण्ड"],
+    "e.g. +91 98765 43210":["जैसे: +91 98765 43210","जस्तै: +91 98765 43210"],
+    "Tell guests a little about you and your village":["मेहमानों को अपने और अपने गाँव के बारे में थोड़ा बताइए","पाहुनाहरूलाई आफ्नो र आफ्नो गाउँबारे थोरै बताउनुहोस्"],
+    "Save Profile":["प्रोफ़ाइल सहेजें","प्रोफाइल सुरक्षित गर्नुहोस्"]
   };
 
   /* Text that changes while the page is used */
@@ -399,6 +457,8 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
         note:"{cat}, मालिक: {owner}",thanks:"धन्यवाद, {owner}! {name} ({cat}) अब दर्ता भयो।",regT:"व्यवसाय दर्ता भयो",
         lessonT:"नमुना पाठ सुरु भयो",addT:"{p} तपाईंको शोकेसमा थपियो"}
   };
+
+  D.en.profT = "Profile saved"; D.hi.profT = "प्रोफ़ाइल सहेजी गई"; D.ne.profT = "प्रोफाइल सुरक्षित भयो";
 
   var orig = new WeakMap();
   var skip = "[data-lesson],[data-add],#bizNote,#formMsg,#toast,.lang";
@@ -421,7 +481,7 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
       var o = orig.get(n);
       n.nodeValue = lang === "en" ? o.raw : o.lead + tr(o.k) + o.trail;
     });
-    document.querySelectorAll("input[placeholder]").forEach(function(i){
+    document.querySelectorAll("input[placeholder],textarea[placeholder]").forEach(function(i){
       if(!i.dataset.ph) i.dataset.ph = i.getAttribute("placeholder");
       i.placeholder = tr(i.dataset.ph);
     });
@@ -520,6 +580,16 @@ input,select{padding:12px 14px;border-radius:12px;border:1.5px solid var(--line)
       renderDyn();
       toast(fmt(D[lang].addT, {p: tr(b.getAttribute("data-add"))}));
     });
+  });
+
+  document.getElementById("profForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    var v = function(id){ return document.getElementById(id).value.trim(); };
+    document.getElementById("pName").textContent = v("pfName");
+    document.getElementById("pVillage").textContent = v("pfVillage");
+    document.getElementById("pPhone").textContent = v("pfPhone");
+    if(v("pfAbout")) document.getElementById("pAbout").textContent = v("pfAbout");
+    toast(D[lang].profT);
   });
 
   setLang(lang);
